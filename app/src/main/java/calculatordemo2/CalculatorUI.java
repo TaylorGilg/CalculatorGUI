@@ -1,6 +1,7 @@
 package calculatordemo2;
 
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,11 @@ import javax.swing.JTextArea;
 public class CalculatorUI implements ActionListener {
 	private final JFrame frame;
 	private final JPanel panel;
+	private final JPanel buttonPanel;
+	private final JPanel numPanel;
+	private final JPanel opPanel;
+	private final JPanel trigPanel;
+	private final JPanel comFunct;
 	private final JTextArea text;
 	private final JButton jButtons[], add, sub, mult, div, equal, cancel, sqrRt, sqr, inverse, cos, sin, tan;
 	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -30,14 +36,27 @@ public class CalculatorUI implements ActionListener {
 	public CalculatorUI() {
 		frame = new JFrame("Calculator");
 		frame.setResizable(true);
-		panel = new JPanel(new FlowLayout());
-		text = new JTextArea(2, 25);
+		frame.setLayout(new BorderLayout());
+
+		panel = new JPanel(new BorderLayout()); //back most panel (holds text field NORTH & common functions just below)
+
+		buttonPanel = new JPanel(new BorderLayout()); //organizes panels involving numbers, operators, and trig
+
+		numPanel = new JPanel(new GridLayout(4,3)); //0-9 button panel
+		opPanel = new JPanel(new GridLayout(5, 1)); //primitive operand button panel (+,-,/,*,=)
+		trigPanel = new JPanel(new GridLayout(1,3)); //trig operand button panel (cos, sin, tan & inverse trig)
+		comFunct = new JPanel(new GridLayout(1, 4)); //common functions button panel
+
+		text = new JTextArea();
 		jButtons = new JButton[10];
 
 		for (int i = 0; i < 10; i++) {
-			jButtons[i] = new JButton(String.valueOf(i));
+			jButtons[i] = new JButton(String.valueOf(i)); 
 		}
-
+		//Create button groups for primitive operators (+,-,/,*,=), 
+		//trigonometric operators (sin, cos, tan), & common function operators
+		//Make buttons for inverse cos, sin, & tan operations (group them too).
+		//Make operations button panel.
 		add = new JButton("+");
 		sub = new JButton("-");
 		mult = new JButton("*");
@@ -60,26 +79,36 @@ public class CalculatorUI implements ActionListener {
 	public void init() {
 		frame.setSize(300, 340);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.add(panel);
+		frame.add(panel, BorderLayout.NORTH);
+		frame.add(buttonPanel, BorderLayout.CENTER);
 
-		panel.add(text);
-		for (int i = 0; i < 10; i++) {
-			panel.add(jButtons[i]);
-			jButtons[i].addActionListener(this);
+		panel.add(text, BorderLayout.NORTH);
+
+		for (int i = 1; i < 10; i++) {
+			numPanel.add(jButtons[i]);
+			jButtons[i].addActionListener(this); //Adding # buttons to number panel
 		}
-		// add operand buttons
-		panel.add(add);
-		panel.add(sub);
-		panel.add(mult);
-		panel.add(div);
-		panel.add(sqr);
-		panel.add(sqrRt);
-		panel.add(inverse);
-		panel.add(cos);
-		panel.add(sin);
-		panel.add(tan);
-		panel.add(equal);
-		panel.add(cancel);
+			numPanel.add(jButtons[0]);
+		//Add buttons to panels via button groups.
+		//Add operand buttons to their own panel.
+		opPanel.add(add);
+		opPanel.add(sub);
+		opPanel.add(mult);
+		opPanel.add(div);
+		opPanel.add(equal);
+		comFunct.add(sqr);
+		comFunct.add(sqrRt);
+		comFunct.add(inverse);
+		comFunct.add(cancel);
+		trigPanel.add(cos);
+		trigPanel.add(sin);
+		trigPanel.add(tan);
+
+		buttonPanel.add(opPanel, BorderLayout.EAST);
+		buttonPanel.add(numPanel, BorderLayout.CENTER);
+		buttonPanel.add(comFunct, BorderLayout.NORTH);
+		buttonPanel.add(trigPanel, BorderLayout.SOUTH);
+
 		// add event listeners
 		add.addActionListener(this);
 		sub.addActionListener(this);
