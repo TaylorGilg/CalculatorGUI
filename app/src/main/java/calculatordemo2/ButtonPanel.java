@@ -8,13 +8,13 @@ public class ButtonPanel {
     private JPanel panel;
     private JButton[] buttons;
 
-    public ButtonPanel(String[] buttonNames, int row, int col)
+    public ButtonPanel(String[] buttonValues, int row, int col)
     {
         panel = new JPanel(new GridLayout(row,col));
-        buttons = new JButton[buttonNames.length];
+        buttons = new JButton[buttonValues.length];
 
-        for (int i = 0; i < buttonNames.length; i++) {
-			buttons[i] = new JButton(buttonNames[i]); 
+        for (int i = 0; i < buttonValues.length; i++) {
+			buttons[i] = new JButton(buttonValues[i]); 
             panel.add(buttons[i]);
 		}
 
@@ -31,6 +31,18 @@ public class ButtonPanel {
         {
             button.addActionListener(listener);
         }
+    }
+
+    public boolean hasButton (JButton button)
+    {
+        for (JButton b : buttons)
+        {
+            if(b.getText() == button.getText())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
