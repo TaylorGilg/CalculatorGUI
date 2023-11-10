@@ -32,6 +32,37 @@ class CalculatorUITest {
         // Test that the value of “text” is “mytext”
         assertEquals("mytext", text.getText());
     }
+
+    @DisplayName("Testing reader method")
+    @Test
+    public void testReader()
+    {
+        //When the text area is empty
+        classUnderTest.text.setText("");
+        assertEquals(0.0, classUnderTest.reader());
+
+        //When the text area recieves a number
+        classUnderTest.text.setText("75.5");
+        assertEquals(75.5, classUnderTest.reader());
+
+        //When the text area recieves a non-number
+        classUnderTest.text.setText("wow");
+        assertThrows(NumberFormatException.class, classUnderTest::reader);
+    }
+
+    @DisplayName("Testing writer method")
+    @Test
+    public void testWriter()
+    {
+        //Writing a number value to the text area
+        classUnderTest.writer(75.5);
+        assertEquals("75.5", classUnderTest.text.getText());
+
+        //Writing a non-number value to the text area
+        classUnderTest.writer(Double.NaN);
+        assertEquals("", classUnderTest.text.getText());
+
+    }
     
     @Test 
     void appPanelIsCreated() {

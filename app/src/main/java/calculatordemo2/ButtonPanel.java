@@ -33,16 +33,4 @@ public class ButtonPanel {
         }
     }
 
-    public boolean hasButton (JButton button)
-    {
-        for (JButton b : buttons)
-        {
-            if(b.getText() == button.getText())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
