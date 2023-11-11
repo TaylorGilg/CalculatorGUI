@@ -3,11 +3,14 @@
  */
 package calculatordemo2;
 
+import javax.swing.JButton;
 import javax.swing.JTextArea;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;  // This brings in the Field feature of Java Reflection
 
 class CalculatorUITest {
@@ -63,6 +66,71 @@ class CalculatorUITest {
         assertEquals("", classUnderTest.text.getText());
 
     }
+
+    //Testing actionPerformed() method
+    @DisplayName("Testing number button clicked")
+    @Test
+    public void testNumClicked()
+    {
+        classUnderTest.text.setText("4");
+        classUnderTest.actionPerformed(new ActionEvent(new JButton("4"), 0, "4"));
+        assertEquals("44", classUnderTest.text.getText());
+    }
+
+    @DisplayName("Testing use of buttons to add two numbers")
+    @Test
+    public void testPlus()
+    {
+        
+    }
+
+    @DisplayName("Testing use of buttons to subtract two numbers")
+    @Test
+    public void testMinus()
+    {
+        
+    }
+
+    @DisplayName("Testing use of common function button")
+    @Test
+    public void testComFunct()
+    {
+
+    }
+
+    @DisplayName("Testing use of trig button")
+    @Test
+    public void testTrig()
+    {
+
+    }
+
+    @DisplayName("Testing use of inverse trig button")
+    @Test
+    public void testInvTrig()
+    {
+
+    }
+
+    @DisplayName("Testing use of equals button")
+    @Test
+    public void testEquals()
+    {
+
+    }
+
+    @DisplayName("Testing use of cancel button")
+    public void testCancel()
+    {
+
+    }
+
+
+
+
+
+
+
     
     @Test 
     void appPanelIsCreated() {

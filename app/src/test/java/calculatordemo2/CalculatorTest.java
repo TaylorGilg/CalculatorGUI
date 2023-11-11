@@ -60,4 +60,122 @@ class CalculatorTest {
     void testThrowError() {
         assertThrows(Error.class, () -> classUnderTest.calcScience(null, 10.0));
     }
+
+
+    //Testing TwoOpOperations() method
+    @DisplayName("Tests two operations in normal mode")
+    @Test
+    public void testTwoOpNormal()
+    {
+        classUnderTest.mode = Calculator.twoOperator.normal;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(15.0, result, 0.001);
+
+    }
+
+    @DisplayName("Tests addition of two numbers")
+    @Test
+    public void testAdd()
+    {
+        classUnderTest.mode = Calculator.twoOperator.add;
+        classUnderTest.num1 = 6.0;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(21.0, result, 0.001);
+    }
+
+    @DisplayName("Tests subtraction of two numbers")
+    @Test
+    public void testSub()
+    {
+        classUnderTest.mode = Calculator.twoOperator.subtract;
+        classUnderTest.num1 = 6.0;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(-9.0, result, 0.001);
+    }
+
+    @DisplayName("Tests multipication of two numbers")
+    @Test
+    public void testMult()
+    {
+        classUnderTest.mode = Calculator.twoOperator.multiply;
+        classUnderTest.num1 = 6.0;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(90.0, result, 0.001);
+    }
+
+    @DisplayName("Tests division of two numbers")
+    @Test
+    public void testDiv()
+    {
+        classUnderTest.mode = Calculator.twoOperator.divide;
+        classUnderTest.num1 = 6.0;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(0.4, result, 0.001);
+    }
+
+    @DisplayName("Tests with invalid mode")
+    @Test
+    public void testInvalidMode()
+    {
+        classUnderTest.mode = Calculator.twoOperator.normal;
+        classUnderTest.num2 = 15.0;
+        double result = classUnderTest.twoOpOperations();
+        assertEquals(15.0, result, 0.001);
+    }
+
+    @DisplayName("Tests multiple operations")
+    @Test
+    public void testMultiple1()
+    {
+        classUnderTest.mode = Calculator.twoOperator.add;
+        classUnderTest.num1 = 2.0;
+        classUnderTest.num2 = 3.0;
+        classUnderTest.twoOpOperations(); //result is 5.0
+        classUnderTest.mode = Calculator.twoOperator.multiply;
+        classUnderTest.num1 = 5.0;
+        classUnderTest.num2 = 2.0;
+        assertEquals(10.0, classUnderTest.twoOpOperations(), 0.001);
+    }
+
+    @DisplayName("Tests multiple operations")
+    @Test
+    public void testMultiple2()
+    {
+        classUnderTest.mode = Calculator.twoOperator.subtract;
+        classUnderTest.num1 = 2.0;
+        classUnderTest.num2 = 3.0;
+        classUnderTest.twoOpOperations(); //result is -1.0
+        classUnderTest.mode = Calculator.twoOperator.add;
+        classUnderTest.num1 = -1.0;
+        classUnderTest.num2 = 2.0;
+        assertEquals(1.0, classUnderTest.twoOpOperations(), 0.001);
+    }
+
+    @DisplayName("Tests multiple operations")
+    @Test
+    public void testMultiple3()
+    {
+        classUnderTest.mode = Calculator.twoOperator.divide;
+        classUnderTest.num1 = 1.0;
+        classUnderTest.num2 = 2.0;
+        classUnderTest.twoOpOperations(); //result is 0.5
+        classUnderTest.mode = Calculator.twoOperator.multiply;
+        classUnderTest.num1 = 0.5;
+        classUnderTest.num2 = 2.0;
+        assertEquals(1.0, classUnderTest.twoOpOperations(), 0.001);
+    }
+
+
+
+
+
+
+
+
+    
 }
