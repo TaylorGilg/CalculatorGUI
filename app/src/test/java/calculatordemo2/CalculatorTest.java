@@ -171,11 +171,44 @@ class CalculatorTest {
     }
 
 
+    //Testing twoOpCaller() method
+    @DisplayName("Tests addition operation")
+    @Test
+    public void testOpCallerAdd()
+    {
+        double result = classUnderTest.twoOpCaller(Calculator.twoOperator.add, 5.0);
+        assertEquals(Double.NaN, result, 0.01);
+    }
+
+    @DisplayName("Tests subtraction operation")
+    @Test
+    public void testOpCallerSubtract()
+    {
+        double result = classUnderTest.twoOpCaller(Calculator.twoOperator.subtract, 5.0);
+        assertEquals(Double.NaN, result, 0.01);
+    }
 
 
+    @DisplayName("Tests the arccos function")
+    @Test
+    void testArccos() {
+        double num = 45.0;
+        assertEquals(Math.acos(num), classUnderTest.calcScience(Calculator.singleOperator.arccos, num));
+    }
 
+    @DisplayName("Tests the arcsin function")
+    @Test
+    void testArcsin() {
+        double num = 45.0;
+        assertEquals(Math.asin(num), classUnderTest.calcScience(Calculator.singleOperator.arcsin, num));
+    }
 
-
+    @DisplayName("Tests the arctan function")
+    @Test
+    void testArctan() {
+        double num = 45.0;
+        assertEquals(Math.atan(num), classUnderTest.calcScience(Calculator.singleOperator.arctan, num));
+    }
 
     
 }

@@ -5,6 +5,8 @@ package calculatordemo2;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -67,49 +69,92 @@ class CalculatorUITest {
 
     }
 
+    
     //Testing actionPerformed() method
     @DisplayName("Testing number button clicked")
     @Test
     public void testNumClicked()
     {
-        classUnderTest.text.setText("4");
-        classUnderTest.actionPerformed(new ActionEvent(new JButton("4"), 0, "4"));
-        assertEquals("44", classUnderTest.text.getText());
+        JButton button = new JButton("4");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "4");
+
+        classUnderTest.actionPerformed(e);
+        assertEquals("4", classUnderTest.text.getText());
+
     }
 
     @DisplayName("Testing use of buttons to add two numbers")
     @Test
     public void testPlus()
     {
-        
+        classUnderTest.text.setText("4");
+        JButton button = new JButton("+");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "+");
+
+        classUnderTest.actionPerformed(e);
+        assertEquals("0.0", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of buttons to subtract two numbers")
     @Test
     public void testMinus()
     {
-        
+        classUnderTest.text.setText("4");
+        JButton button = new JButton("-");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "-");
+
+        classUnderTest.actionPerformed(e);
+        assertEquals("", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of common function button")
     @Test
     public void testComFunct()
     {
+        classUnderTest.text.setText("4");
+        JButton button = new JButton("x*x");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "x*x");
 
+        classUnderTest.actionPerformed(e);
+        assertEquals("16.0", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of trig button")
     @Test
     public void testTrig()
     {
+        classUnderTest.text.setText("4");
+        JButton button = new JButton("Cos");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "Cos");
 
+        classUnderTest.actionPerformed(e);
+        assertEquals("-0.6536436208636119", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of inverse trig button")
     @Test
     public void testInvTrig()
     {
+        classUnderTest.text.setText("0");
+        JButton button1 = new JButton("Arccos");
+        ActionEvent a = new ActionEvent(button1, ActionEvent.ACTION_PERFORMED, "Arccos");
 
+        classUnderTest.actionPerformed(a);
+        assertEquals("1.5707963267948966", classUnderTest.text.getText());
+
+        classUnderTest.text.setText("0");
+        JButton button2 = new JButton("Arcsin");
+        ActionEvent b = new ActionEvent(button2, ActionEvent.ACTION_PERFORMED, "Arcsin");
+
+        classUnderTest.actionPerformed(b);
+        assertEquals("0.0", classUnderTest.text.getText());
+
+        classUnderTest.text.setText("0");
+        JButton button3 = new JButton("Arctan");
+        ActionEvent c = new ActionEvent(button3, ActionEvent.ACTION_PERFORMED, "Arccos");
+
+        classUnderTest.actionPerformed(c);
+        assertEquals("0.0", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of equals button")
@@ -117,12 +162,23 @@ class CalculatorUITest {
     public void testEquals()
     {
 
+        JButton button1 = new JButton("C");
+        ActionEvent a = new ActionEvent(button1, ActionEvent.ACTION_PERFORMED, "C");
+         classUnderTest.actionPerformed(a);
+        JButton button2 = new JButton("=");
+        ActionEvent b = new ActionEvent(button2, ActionEvent.ACTION_PERFORMED, "=");
+        classUnderTest.actionPerformed(b);
+        assertEquals("", classUnderTest.text.getText());
     }
 
     @DisplayName("Testing use of cancel button")
     public void testCancel()
     {
+        JButton button = new JButton("C");
+        ActionEvent e = new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "C");
 
+        classUnderTest.actionPerformed(e);
+        assertEquals("", classUnderTest.text.getText());
     }
 
 
