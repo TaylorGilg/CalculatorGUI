@@ -1,6 +1,6 @@
 package calculatordemo2;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,9 +19,13 @@ import javax.swing.JTextArea;
 public class CalculatorUI implements ActionListener {
 	private final JFrame frame;
 	private final JPanel panel;
-	private final JTextArea text;
-	private final JButton jButtons[], add, sub, mult, div, equal, cancel, sqrRt, sqr, inverse, cos, sin, tan;
-	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+	private final JPanel buttonPanel;
+	public final JTextArea text;
+
+	private final String[] numValue = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+	private final String[] opValue = {"+", "-", "*", "/","="};
+	private final String[] trigValue = {"Cos","Sin","Tan", "Arccos", "Arcsin", "Arctan"};
+	private final String[] comFunctValue = {"√","x*x","1/x", "C"};
 	private final Calculator calc;
 
 	/**
@@ -30,28 +34,14 @@ public class CalculatorUI implements ActionListener {
 	public CalculatorUI() {
 		frame = new JFrame("Calculator");
 		frame.setResizable(true);
-		panel = new JPanel(new FlowLayout());
-		text = new JTextArea(2, 25);
-		jButtons = new JButton[10];
+		frame.setLayout(new BorderLayout());
 
-		for (int i = 0; i < 10; i++) {
-			jButtons[i] = new JButton(String.valueOf(i));
-		}
+		panel = new JPanel(new BorderLayout()); //Back most panel (contains text field)
+		buttonPanel = new JPanel(new BorderLayout()); //Contains panels involving number, operator, common functions, and trig buttons
 
-		add = new JButton("+");
-		sub = new JButton("-");
-		mult = new JButton("*");
-		div = new JButton("/");
-		equal = new JButton("=");
-		sqrRt = new JButton("√");
-		sqr = new JButton("x*x");
-		inverse = new JButton("1/x");
-		cos = new JButton("Cos");
-		sin = new JButton("Sin");
-		tan = new JButton("Tan");
-		cancel = new JButton("C");
-
+		text = new JTextArea(); 
 		calc = new Calculator();
+
 	}
 
 	/**
@@ -60,39 +50,30 @@ public class CalculatorUI implements ActionListener {
 	public void init() {
 		frame.setSize(300, 340);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.add(panel);
+		frame.add(panel, BorderLayout.NORTH);
+		frame.add(buttonPanel, BorderLayout.CENTER);
 
-		panel.add(text);
-		for (int i = 0; i < 10; i++) {
-			panel.add(jButtons[i]);
-			jButtons[i].addActionListener(this);
-		}
-		// add operand buttons
-		panel.add(add);
-		panel.add(sub);
-		panel.add(mult);
-		panel.add(div);
-		panel.add(sqr);
-		panel.add(sqrRt);
-		panel.add(inverse);
-		panel.add(cos);
-		panel.add(sin);
-		panel.add(tan);
-		panel.add(equal);
-		panel.add(cancel);
-		// add event listeners
-		add.addActionListener(this);
-		sub.addActionListener(this);
-		mult.addActionListener(this);
-		div.addActionListener(this);
-		sqr.addActionListener(this);
-		sqrRt.addActionListener(this);
-		inverse.addActionListener(this);
-		cos.addActionListener(this);
-		sin.addActionListener(this);
-		tan.addActionListener(this);
-		equal.addActionListener(this);
-		cancel.addActionListener(this);
+		panel.add(text, BorderLayout.NORTH);
+
+		//Creating a ButtonPanel instance for each grouping 
+		//to easily make panels for the button groups (& format panel appearance), 
+		//create buttons, and later add action listeners.
+		ButtonPanel numPanel = new ButtonPanel(numValue, 4, 3);
+		ButtonPanel opPanel = new ButtonPanel(opValue, 5, 1);
+		ButtonPanel trigPanel = new ButtonPanel(trigValue, 2,3);
+		ButtonPanel comFunctPanel = new ButtonPanel(comFunctValue, 1, 4);
+
+		//Adding panels of buttons groupings to main button panel.
+		buttonPanel.add(opPanel.getPanel(), BorderLayout.EAST);
+		buttonPanel.add(numPanel.getPanel(), BorderLayout.CENTER);
+		buttonPanel.add(trigPanel.getPanel(), BorderLayout.SOUTH);
+		buttonPanel.add(comFunctPanel.getPanel(), BorderLayout.NORTH);
+		
+		//Adds event listeners to buttons via method in ButtonPanel class.
+		opPanel.addButtonListener(this);
+		numPanel.addButtonListener(this);
+		trigPanel.addButtonListener(this);
+		comFunctPanel.addButtonListener(this);
 
 		frame.setVisible(true);
 	}
@@ -104,59 +85,104 @@ public class CalculatorUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		final Object source = e.getSource();
-		// check 0-9 and update textfield
-		for (int i = 0; i < 10; i++) {
-			if (source == jButtons[i]) {
-				text.replaceSelection(buttonValue[i]);
+		JButton buttonPicked  = (JButton) source;
+
+		for (int i = 0; i < numValue.length; i++) {
+			if (numValue[i] == buttonPicked.getText())
+			{
+				text.replaceSelection(numValue[i]);
 				return;
 			}
 		}
-		if (source == add) {
-			writer(calc.twoOpCaller(Calculator.twoOperator.add, reader()));
-		}
-		if (source == sub) {
-			writer(calc.twoOpCaller(Calculator.twoOperator.subtract, reader()));
-		}
-		if (source == mult) {
-			writer(calc.twoOpCaller(Calculator.twoOperator.multiply,
+		
+		for (int i = 0; i < opValue.length; i++) {
+			if (opValue[i] == buttonPicked.getText())
+			{
+				if (i == 0)
+				{
+					writer(calc.twoOpCaller(Calculator.twoOperator.add, reader()));
+				}
+				else if (i == 1)
+				{
+					writer(calc.twoOpCaller(Calculator.twoOperator.subtract, reader()));
+				}
+				else if (i == 2)
+				{
+					writer(calc.twoOpCaller(Calculator.twoOperator.multiply,
 					reader()));
-		}
-		if (source == div) {
-			writer(calc.twoOpCaller(Calculator.twoOperator.divide, reader()));
-		}
-		if (source == sqr) {
-			writer(calc.calcScience(Calculator.singleOperator.square,
-					reader()));
-		}
-		if (source == sqrRt) {
-			writer(calc.calcScience(Calculator.singleOperator.squareRoot,
-					reader()));
-		}
-		if (source == inverse) {
-			writer(calc.calcScience(
-					Calculator.singleOperator.oneDevidedBy, reader()));
-		}
-		if (source == cos) {
-			writer(calc.calcScience(Calculator.singleOperator.cos,
-					reader()));
-		}
-		if (source == sin) {
-			writer(calc.calcScience(Calculator.singleOperator.sin,
-					reader()));
+				}
+				else if (i == 3)
+				{
+					writer(calc.twoOpCaller(Calculator.twoOperator.divide, reader()));
+				}
+				else
+				{
+					writer(calc.calculateEqual(reader()));
+				}
+			}
 		}
 
-		if (source == tan) {
-			writer(calc.calcScience(Calculator.singleOperator.tan,
+		for (int i = 0; i < trigValue.length; i++) {
+			if (trigValue[i] == buttonPicked.getText())
+			{
+				if(i == 0)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.cos,
 					reader()));
+				}
+				else if (i == 1)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.sin,
+					reader()));
+				}
+				else if (i == 2)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.tan,
+					reader()));
+				}
+				else if (i == 3)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.arccos, reader()));
+				}
+				else if (i == 4)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.arcsin, reader()));
+				}
+				else
+				{
+					writer(calc.calcScience(Calculator.singleOperator.arctan, reader()));
+				}
+			}
+
 		}
-		if (source == equal) {
-			writer(calc.calculateEqual(reader()));
+		for (int i = 0; i < comFunctValue.length; i++) {
+			if (comFunctValue[i] == buttonPicked.getText())
+			{
+				if(i == 0)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.squareRoot,
+					reader()));
+				}
+				else if(i == 1)
+				{
+					writer(calc.calcScience(Calculator.singleOperator.square,
+					reader()));
+				}
+				else if (i == 2)
+				{
+					writer(calc.calcScience(
+					Calculator.singleOperator.oneDevidedBy, reader()));
+				}
+				else
+				{
+					writer(calc.reset());
+				}
+			}
 		}
-		if (source == cancel) {
-			writer(calc.reset());
-		}
+		
 		// for easy continued calculations/copy
 		text.selectAll();
+		
 	}
 
 	/**
@@ -167,9 +193,13 @@ public class CalculatorUI implements ActionListener {
 		Double num;
 		String str;
 		str = text.getText();
-		num = Double.valueOf(str);
-
-		return num;
+		if(!str.isEmpty())
+		{
+			num = Double.valueOf(str);
+			return num;
+		}
+		return num = 0.0;
+		
 	}
 
 	/**

@@ -15,17 +15,17 @@ public class Calculator{
 	}
 
 	public enum singleOperator {
-		square, squareRoot, oneDevidedBy, cos, sin, tan
+		square, squareRoot, oneDevidedBy, cos, sin, tan, arccos, arcsin, arctan
 	}
 
-	private Double num1, num2;
-	private twoOperator mode = twoOperator.normal;
+	public Double num1, num2;
+	public twoOperator mode = twoOperator.normal;
 
 	/**
 	 * The final call in enumeration that returns the specificed operation result
 	 * @return returns the called operation's result
 	 */
-	private Double twoOpOperations() {
+	public Double twoOpOperations() {
 		if (mode == twoOperator.normal) {
 			return num2;
 		}
@@ -112,6 +112,18 @@ public class Calculator{
 		}
 		if (newMode == singleOperator.tan) {
 			return Math.tan(num);
+		}
+		if (newMode == singleOperator.arccos)
+		{
+			return Math.acos(num);
+		}
+		if (newMode == singleOperator.arcsin)
+		{
+			return Math.asin(num);
+		}
+		if (newMode == singleOperator.arctan)
+		{
+			return Math.atan(num);
 		}
 		// never reach
 		throw new Error();
