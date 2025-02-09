@@ -2,7 +2,7 @@
 
 This project consisted of a template which I was tasked to build a functional calculator GUI and testing functions upon. It was a great, beginner friendly, learning exercise in how to create and format GUI with Java Swing, connect them back to functionalities, and write tests for my code. The calculator supports basic arithmetic operations, trigonometric functions, and some scientific calculations.
 
-###Project Structure
+### Project Structure
 calculatorproject/
     .gitattributes
     .gitignore
@@ -31,17 +31,17 @@ calculatorproject/
     README.md
     settings.gradle.kts
 
-###Main Components
+### Main Components
 ButtonPanel.java: Defines a panel with buttons for the calculator.
 Calculator.java: Contains the logic for performing arithmetic and scientific calculations.
 CalculatorMain.java: The main entry point for the application.
 CalculatorUI.java: Manages the user interface and handles user interactions.
 
-##Tests
+### Tests
 CalculatorTest.java: Unit tests for the Calculator class.
 CalculatorUITest.java: Unit tests for the CalculatorUI class.
 
-###Dependencies: 
+### Dependencies: 
 - Java Development Kit (JDK) 8 or higher
 - Gradle
 
